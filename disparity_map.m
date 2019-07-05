@@ -13,5 +13,7 @@ function [D, R, T] = disparity_map(scene_path)
     % Corner matrix must be transposed
     corresponds = Correspondings_Finder(im0, im1, Corner_im0', Corner_im1', ...
         'min_corr',0.96, 'do_plot', true); % 0.96 should be a good min_corr value
+    %% Get Essential Matrix E
+    %  get robust matching points using ransac
     
 end
