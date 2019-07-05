@@ -4,9 +4,12 @@ function [D, R, T] = disparity_map(scene_path)
     % motion is returned as Rotation R and Translation T.
     %% Load input image pair
     %  It's okay if u have '/' at the end of scene_path ;)
-    im0 = double(imread(strcat(scene_path,'/im0.png')));
-    im1 = double(imread(strcat(scene_path,'/im1.png')));
-    %% Find Corners
+    %  im0 = double(imread(strcat(scene_path,'/im0.png')));
+    %  im1 = double(imread(strcat(scene_path,'/im1.png')));
+    %  Use function readDataFromDir 
+    testData = readDataFromDir(scene_path)
+    im0 = testData.im0;   
+    im1 = testData.im1;
     Corner_im0 = Corner_Finder(im0,'do_plot',true);
     Corner_im1 = Corner_Finder(im1);
     %% Find Matching points
@@ -15,5 +18,8 @@ function [D, R, T] = disparity_map(scene_path)
         'min_corr',0.96, 'do_plot', true); % 0.96 should be a good min_corr value
     %% Get Essential Matrix E
     %  get robust matching points using ransac
+    Corresponds_robust = F_ransac(corresponds);
+    % Apply acht-punkt-algo to get E or F
+    E = achtpunktalgorithmus(Corresponds_robust, testData.K)
     
 end
