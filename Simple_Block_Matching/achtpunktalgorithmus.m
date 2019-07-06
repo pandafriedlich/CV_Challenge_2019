@@ -10,9 +10,8 @@ function E = achtpunktalgorithmus(Correspondings, K)
     x2(3,:) = 1;
     % Check if K given
     if exist('K','var')
-        Pi0 = [1 0 0 0;0 1 0 0;0 0 1 0];
-        x1 = K\x1;
-        x2 = K\x2;
+        x1 = K{1}\x1;
+        x2 = K{2}\x2;
     end
     % Kronecker operator 
     for i = 1:size(x1,2)

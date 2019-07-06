@@ -8,19 +8,23 @@ function Correspondings_robust = F_ransac(Correspondings, varargin)
 %   Output             Correspondings_robust        robust corres pts found 
         p = inputParser;
         addRequired(p,'Correspondings');
-        valideps = @(x) isnumeric(x)&&x<1&&x>0;;
-        addParameter(p,'epsilon',0.5,valideps);
-        addParameter(p,'p',0.5,valideps);
+        valideps = @(x) isnumeric(x)&&x<1&&x>0;
+        addParameter(p,'epsilon',0.3,valideps);
+        addParameter(p,'p',0.95,valideps);
         validtol = @(x) isnumeric(x);
-        addParameter(p,'tolerance',0.01,validtol);
-        addParameter(p,'do_plot',0);
+        addParameter(p,'tolerance',0.1,validtol);
+        %addParameter(p,'do_plot',0);
         parse(p,Correspondings,varargin{:});
-        % Convert to homogene coordinates
+        %% Variables
+        epsilon       = p.Results.epsilon;
+        tol           = p.Results.tolerance;
+        p             = p.Results.p; % !BUG Potential! p variable or inputparser?
+        %% Convert to homogene coordinates
         x1_pixel = Correspondings(1:2,:);
         x1_pixel(3,:) = 1;
         x2_pixel = Correspondings(3:4,:);
         x2_pixel(3,:) = 1; 
-        % Prepare variables for the ransac algorithm
+        %% Prepare variables for the ransac algorithm
         k = 8;
         s = log(1-p)/(log(1-(1-epsilon)^k));
         largest_set_size = 0;
@@ -40,7 +44,7 @@ function Correspondings_robust = F_ransac(Correspondings, varargin)
             % Calc the sampson distance
             sd = sampson_dist(F, k_paar1, k_paar2);
             % update zustand-variable
-            Consensus_set_dist = sd.*(sd<tolerance);
+            Consensus_set_dist = sd.*(sd<tol);
             current_set_dist = sum(Consensus_set_dist);
             current_set_size = nnz(Consensus_set_dist);
             if current_set_size > largest_set_size
@@ -63,9 +67,9 @@ function sd = sampson_dist(F, x1_pixel, x2_pixel)
     % Diese Funktion berechnet die Sampson Distanz basierend auf der
     % Fundamentalmatrix F
     e3=[0 -1 0;1 0 0;0 0 0];
-    diag(x2_pixel'*F*x1_pixel).^2
-    sum(((e3*F*x1_pixel).^2),1)
-    sum(((x2_pixel'*F*e3).^2),2)
+    %diag(x2_pixel'*F*x1_pixel).^2
+    %sum(((e3*F*x1_pixel).^2),1)
+    %sum(((x2_pixel'*F*e3).^2),2)
     sd = diag(x2_pixel'*F*x1_pixel).^2./(sum(((e3*F*x1_pixel).^2),1)'+sum(((x2_pixel'*F*e3).^2),2));  
     sd = sd';
 end
