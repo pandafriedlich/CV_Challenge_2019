@@ -4,6 +4,7 @@ function Correspondings_robust = F_ransac(Correspondings, varargin)
 %   Input (optional)  epsilon,       outlier probability
 %   Input (optional)  p,             Inlier probability?
 %   Input (optional)  tolerance,     threshold
+%   Input (optional)  k,             number of wanted robust pts
 %   Input (optional)  do_plot,       Plot the found robust matching points
 %   Output             Correspondings_robust        robust corres pts found 
         p = inputParser;
@@ -12,12 +13,14 @@ function Correspondings_robust = F_ransac(Correspondings, varargin)
         addParameter(p,'epsilon',0.3,valideps);
         addParameter(p,'p',0.95,valideps);
         validtol = @(x) isnumeric(x);
-        addParameter(p,'tolerance',0.1,validtol);
+        addParameter(p,'tolerance',0.01,validtol);
+        addParameter(p,'k',16);
         %addParameter(p,'do_plot',0);
         parse(p,Correspondings,varargin{:});
         %% Variables
         epsilon       = p.Results.epsilon;
         tol           = p.Results.tolerance;
+        k             = p.Results.k;
         p             = p.Results.p; % !BUG Potential! p variable or inputparser?
         %% Convert to homogene coordinates
         x1_pixel = Correspondings(1:2,:);
@@ -25,14 +28,13 @@ function Correspondings_robust = F_ransac(Correspondings, varargin)
         x2_pixel = Correspondings(3:4,:);
         x2_pixel(3,:) = 1; 
         %% Prepare variables for the ransac algorithm
-        k = 8;
         s = log(1-p)/(log(1-(1-epsilon)^k));
         largest_set_size = 0;
         largest_set_dist = Inf;
         largest_set_F = zeros([3,3]);    
         b = size(Correspondings,2);
         for i = 1:s
-            rd_index = randi([1,b],8,1);
+            rd_index = randi([1,b],k,1);
             current_set = Correspondings(:,rd_index);
             % get Matrix F
             F = achtpunktalgorithmus(current_set);

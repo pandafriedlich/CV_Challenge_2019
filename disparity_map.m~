@@ -22,11 +22,22 @@ function [D, R, T] = disparity_map(scene_path)
         'min_corr',0.96, 'do_plot', false); % 0.96 should be a good min_corr value
     %% Get Essential Matrix E
     %  get robust matching points using ransac
-    Corresponds_robust = F_ransac(corresponds, 'k', 24);
+    Corresponds_robust = F_ransac(corresponds, 'k', 20);
     % Apply acht-punkt-algo to get E or F
-    E = achtpunktalgorithmus(Corresponds_robust, K);
+    E = achtpunktalgorithmus(Corresponds_robust, K)
     %% T and R from Essential Matrix
-    [T, R, depth] = T_R_Finder(E, Corresponds_robust, K);
+    %[T, R, depth] = T_R_Finder(E, Corresponds_robust, K);
+    [T1_m,R1_m,T2_m,R2_m] = TR_aus_E(E);
+        R_pos = [0 -1 0;1 0 0;0 0 1];
+    R_neg = [0 1 0; -1 0 0;0 0 1];
+    [U,S,V]=svd(E);
+    R1 = U*R_pos'*V';
+    R2 = U*R_neg'*V';
+    T1_s = U*R_pos*S*U';
+    T2_s = U*R_neg*S*U';
+    T1 = [T1_s(3,2);T1_s(1,3);-T1_s(1,2)];
+    T2 = [T2_s(3,2);T2_s(1,3);-T2_s(1,2)];
+    [T,R,lambdas,P1] = rekonstruktion(T1,T2,R1,R2,Corresponds_robust,K);
     %% Find disparity
     
     D= 0;

@@ -34,7 +34,7 @@ tau             = p.Results.tau;
 block_size      = p.Results.block_size;
 N               = p.Results.N;
 min_dist        = p.Results.min_dist;
-edge_width      = p.Results.edge_width
+edge_width      = p.Results.edge_width;
 do_plot         = p.Results.do_plot;
 %% Pasing Parameter block_size
 if(length(block_size)==2)
@@ -87,10 +87,7 @@ end
 
 %% Block Processing
 function H_out = blockProcessor(H,tau,BlockWidth,BlockHeight,N,min_dist)
-% Assert if defined maximum number of corners per block
-if(N > BlockWidth*BlockHeight)
-    error('Cant detect more corners than pixels per block')
-end
+
 
 % Calculate required number of block iterations
 nr_windows_horz=floor(size(H,2)/BlockWidth);
@@ -109,13 +106,6 @@ H(:,end-start_x-2:end) = 0;
 H(1:start_y-1,:) = 0;
 H(end-start_y--2:end,:) = 0;
 
-% Warn if block width/height not integer multiple of Image width/height
-if(start_x~=1)
-    warning('block_size.Width should be an integer multiple of the Image width')
-end
-if(start_y~=1)
-    warning('block_size.Height should be an integer multiple of the Image height')
-end
 % Row Iterator
 for y = start_y:BlockHeight:nr_windows_vert*BlockHeight
     % Column iteratior

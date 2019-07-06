@@ -26,4 +26,9 @@
 - T,R from E  
 > Get T,R candidates (each has 2)  
 > Calc depth of correspondings for all 4 combination  
-> Choose the T,R with most pos. depth values
+> Choose the T,R with most pos. depth values  
+
+## Disparity search
+- Epipolar line  
+> Camera pair rectified, No need to calc the epipolar line  
+
