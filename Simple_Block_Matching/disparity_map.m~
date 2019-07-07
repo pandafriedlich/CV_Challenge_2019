@@ -1,0 +1,9 @@
+function D = disparity_map(im0, im1, corresponds)
+%% Find the disparity of each pixel
+%   Input             im0            Image 0 
+%   Input             im1            Image 1 
+%   Input             corresponds    Matching corner pts
+%   Output            D              Disparity map
+%%  Using corrsponds to find if epipolar line are horizotal
+
+end

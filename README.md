@@ -31,4 +31,12 @@
 ## Disparity search
 - Epipolar line  
 > Camera pair rectified, No need to calc the epipolar line  
+> Window search on range [0, max_disp]  
+> Sum of absolute error
+> Calc disparity after finding the best match pixel  
+
+- Improvement
+> Pre-filter / Substract the mean of each image  
+> Dynamic window size  
+> Post filter on disparity map
 

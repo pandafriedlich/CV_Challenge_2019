@@ -1,4 +1,4 @@
-function Correspondings_robust = F_ransac(Correspondings, varargin)
+function Correspondings_robust = F_ransac(I1,I2,Correspondings, varargin)
 %%  Pick out the robust corresponding points using ransac algorithm  
 %   Input             Correspondings, the matching corner points found earlier  
 %   Input (optional)  epsilon,       outlier probability
@@ -15,9 +15,10 @@ function Correspondings_robust = F_ransac(Correspondings, varargin)
         validtol = @(x) isnumeric(x);
         addParameter(p,'tolerance',0.01,validtol);
         addParameter(p,'k',16);
-        %addParameter(p,'do_plot',0);
+        addParameter(p,'do_plot',0);
         parse(p,Correspondings,varargin{:});
         %% Variables
+        do_plot       = p.Results.do_plot;
         epsilon       = p.Results.epsilon;
         tol           = p.Results.tolerance;
         k             = p.Results.k;
@@ -61,8 +62,26 @@ function Correspondings_robust = F_ransac(Correspondings, varargin)
                 end
             end
         end 
-        %% Do_plot
-        % No image as input, plot will be implementet in father function
+%% do plot
+    if do_plot
+        marker_size=10;
+        figure;
+        imshow(uint8(I1));
+        hold on;
+        imshow(uint8(I2));
+        alpha(0.5);
+        hold on;
+        for i=1:size(Correspondings_robust,2)
+            plot(Correspondings_robust(1,i),Correspondings_robust(2,i),'Color','blue','Marker','o',...
+                'MarkerSize',marker_size);
+            hold on;
+            plot(Correspondings_robust(3,i),Correspondings_robust(4,i),'Color','red','Marker','o',...
+                'MarkerSize',marker_size);
+            hold on;
+            line(Correspondings_robust([1,3],i),Correspondings_robust([2,4],i),'Color','green');
+            hold on;
+        end
+    end
 end
 
 function sd = sampson_dist(F, x1_pixel, x2_pixel)
