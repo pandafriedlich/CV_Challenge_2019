@@ -101,14 +101,10 @@ function corresponds = Correspondings_Finder(I1, I2, Mpt1, Mpt2, varargin)
             NCC_matrix(:,ny)=0;
         end
     end
-    %% Double-check, delete the Matching pts with dY>3;
+    %% Double-check, delete the Matching pts with dY>5;
     for i = 1:size(corresponds,2)
-        dy = abs(corresponds(2,i)-corresponds(4,i));
-        if dy > 3
-            corresponds(:,i) = [0;0;0;0];
-        end
+        dy = abs(corresponds(2,i)-corresponds(4,))
     end
-    corresponds=corresponds(:,any(corresponds));
     %% Do_plot
     if do_plot
         marker_size=10;
