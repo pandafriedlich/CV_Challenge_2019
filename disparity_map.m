@@ -23,7 +23,7 @@ function [D, R, T] = disparity_map(scene_path)
         'min_corr',0.96, 'do_plot', true); % 0.96 should be a good min_corr value
     %% Get Essential Matrix E
     %  get robust matching points using ransac
-    Corresponds_robust = F_ransac(im0, im1, corresponds, 'k', 19, 'do_plot', true);
+    Corresponds_robust = F_ransac(im0, im1, corresponds, 'k', 24, 'do_plot', true);
     % Apply acht-punkt-algo to get E or F
     E = achtpunktalgorithmus(Corresponds_robust, K);
     %% T and R from Essential Matrix
