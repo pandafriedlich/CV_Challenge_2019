@@ -20,20 +20,19 @@ tic;
 %% Disparity Map
 % Specify path to scene folder containing img0 img1 and calib
     % test
-    scene_path = '/Users/guanfuqi/CODE/CV_CHALLANGE/Materials/playground';
+    scene_path = '/nas/ei/home/ga26mib/Documents/cv/playground';
 % 
 % Calculate disparity map and Euclidean motion
   [D, R, T] = disparity_map(scene_path);
 
 %% Validation
 % Specify path to ground truth disparity map
-gt_path = '/Users/guanfuqi/CODE/CV_CHALLANGE/Materials/playground';
-%
-% Load the ground truth
+gt_path = '/nas/ei/home/ga26mib/Documents/cv/playground';
+%Load the ground truth
 G = readGTFromDir(gt_path);
 % 
 % Estimate the quality of the calculated disparity map
-p = validate_dmap(D, G);
+p = verify_dmap(D, G);
 
 %% Stop timer here
 elapsed_time = toc;

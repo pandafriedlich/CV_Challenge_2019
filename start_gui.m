@@ -100,24 +100,23 @@ function disp_getter_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 %% RUN disparity_map Function
 [D, R, T] = disparity_map(handles.path);
-% PSNR = calc_PSNR(D, gt)
 handles.D = D;
 handles.R = R;
 handles.T = T;
 G = readGTFromDir(handles.path);
-PSNR = validate_dmap(D, G);
+PSNR = verify_dmap(D, G);
 % Display the disparity map
-imshow(D./max(D,[],'all'),'colormap',jet,'parent',handles.axes2);
+imshow(D,'colormap',jet,'parent',handles.axes2);
 title(handles.axes2,'Disparity Map');
 %text_R = cellstr(num2str(R, '%4.4f'));
-text_R{1} = sprintf("%4.4f    ",R(1,:) );
-text_R{2} = sprintf("%4.4f    ",R(2,:) );
-text_R{3} = sprintf("%4.4f    ",R(3,:) );
+text_R{1} = sprintf("%3.3f    ",R(1,:) );
+text_R{2} = sprintf("%3.3f    ",R(2,:) );
+text_R{3} = sprintf("%3.3f    ",R(3,:) );
 set(handles.edit1, 'String', text_R);
 %text_T
-text_T{1} = sprintf("%4.4f ",T(1));
-text_T{2} = sprintf("%4.4f ",T(2));
-text_T{3} = sprintf("%4.4f ",T(3));
+text_T{1} = sprintf("%3.3f ",T(1));
+text_T{2} = sprintf("%3.3f ",T(2));
+text_T{3} = sprintf("%3.3f ",T(3));
 set(handles.edit2, 'String', text_T);
 %text_PSNR
 text_PSNR = sprintf("%4.4f dB",PSNR);
