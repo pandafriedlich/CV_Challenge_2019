@@ -23,8 +23,9 @@ function [D, R, T] = disparity_map(scene_path)
     
     %% T,R Calculation
     
-    [T,R] = T_R_From_testData(testData);
-        
+    % Call function: T_R_Finder(im0, im1)
+    
+    
 end
     
     
