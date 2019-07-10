@@ -9,7 +9,7 @@ members = {'Fuqi Guan', 'Fan Wu', 'Hang Yu', 'Yidong Zhao', 'Hanwen Zheng'};
 
 % Email-Address (from Moodle!):
 % mail = {'ga99abc@tum.de', 'daten.hannes@tum.de'};
-mail = {'fuqi.guan@tum.de', 'fan.wu@tum.de', 'hang.yu@tum.de', ...
+mail = {'fuqi.guan@tum.de', 'ge49tet@mytum.de', 'hang.yu@tum.de', ...
     'yidong.zhao@tum.de', 'hanwen.zheng@tum.de' };
 
 %% Add Subfolder
