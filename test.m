@@ -13,22 +13,38 @@ classdef test < matlab.unittest.TestCase
     methods (Test)
         function check_variables(testCase)
            challenge;
-           testCase.assertNotEmpty(group_number);
-           testCase.assertGreaterThan(group_number, 0);
-           testCase.assertNotEmpty(members);
-           testCase.assertGreaterThan(length(members), 0);
+           % check group_number
+           testCase.verifyNotEmpty(group_number);
+           testCase.verifyGreaterThan(group_number, 0);
+           testCase.verifyNotEmpty(members);
+           
+           % check members and mail
+           testCase.verifyGreaterThan(length(members), 0);
+           testCase.verifyEqual(length(members), length(mail));
+           
+           % check D, R, T, p, elapsed_time;
+           testCase.verifyNotEmpty(D);
+           testCase.verifyTrue(sum(D > 0,'all') > 0);
+           
+           testCase.verifyNotEmpty(R);
+           testCase.verifyTrue(sum(R > 0,'all') > 0);
+           
+           testCase.verifyNotEmpty(T);
+           testCase.verifyTrue(sum(T > 0,'all') > 0);
+           
+           testCase.verifyNotEmpty(p);
+           testCase.verifyTrue(p > 0);
+           
         end
         
         function check_toolboxes(testCase)
-            [~,pList] = matlab.codetools.requiredFilesAndProducts('verify_dmap.m');
-            actOut = [length(pList), 1, 1];
+            [~,pList1] = matlab.codetools.requiredFilesAndProducts('verify_dmap.m');
+            [~,pList2] = matlab.codetools.requiredFilesAndProducts('disparity_map.m');
+            [~,pList3] = matlab.codetools.requiredFilesAndProducts('verify_dmap.m');
+            actOut = [length(pList1), length(pList2), length(pList3)];
             expOut = [1, 1, 1];
             testCase.verifyEqual(actOut,expOut);
             
-            [~,pList] = matlab.codetools.requiredFilesAndProducts('show_demo.m');
-            actOut = [length(pList), 1, 1];
-            expOut = [1, 1, 1];
-            testCase.verifyEqual(actOut,expOut);
         end
         
         function check_psnr(testCase)

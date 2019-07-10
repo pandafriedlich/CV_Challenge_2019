@@ -20,14 +20,15 @@ tic;
 %% Disparity Map
 % Specify path to scene folder containing img0 img1 and calib
     % test
-    scene_path = '/nas/ei/home/ga26mib/Documents/cv/playground';
+%     scene_path = '/nas/ei/home/ga26mib/Documents/cv/playground';
+scene_path = './data/terrace';
 % 
 % Calculate disparity map and Euclidean motion
   [D, R, T] = disparity_map(scene_path);
 
 %% Validation
 % Specify path to ground truth disparity map
-gt_path = '/nas/ei/home/ga26mib/Documents/cv/playground';
+gt_path = './data/terrace/';
 %Load the ground truth
 G = readGTFromDir(gt_path);
 % 
@@ -39,8 +40,15 @@ elapsed_time = toc;
 
 %% Print Results
 % R, T, p, elapsed_time
+disp("R:");
+disp(R);
+disp("T:");
+disp(T);
+fprintf("PSNR: %.4f [dB] \n%.2f seconds (~ %d min) elapsed\n", p, ...
+    elapsed_time, round(elapsed_time/60));
 
 
 %% Display Disparity
+figure; imshow(D); colormap jet;
 
 
