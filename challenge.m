@@ -13,7 +13,7 @@ mail = {'fuqi.guan@tum.de', 'fan.wu@tum.de', 'hang.yu@tum.de', ...
     'yidong.zhao@tum.de', 'hanwen.zheng@tum.de' };
 
 %% Add Subfolder
-addpath('lib')
+addpath('lib');
 
 %% Start timer here
 tic;
