@@ -1,18 +1,17 @@
 function dmap_re = disparityColorImage(im0, im1, ds_rate, dmax)
-
     [h1, w1, ~] = size(im0);
     im0 = im0(1:ds_rate:end,1:ds_rate:end, :);
     im1 = im1(1:ds_rate:end, 1:ds_rate:end,:);
     
     % pre-processing
-    I1 = double(im0);
-    I2 = double(im1);
-    [h, w, ~] = size(I1);
+    im0 = double(im0);
+    im1 = double(im1);
+    [h, w, ~] = size(im1);
     % image padding
-    pad_sz = 200;       
-    I1 = padarray(I1, [pad_sz, pad_sz],'symmetric');
-    I2 = padarray(I2, [pad_sz, pad_sz],'symmetric');
-
+    pad_sz = 100;
+    I1 = array_padd(im0, pad_sz);
+    I2 = array_padd(im1, pad_sz);
+    
     % parameters
     block_radius = {20};
     gamma_s = {};
@@ -37,7 +36,7 @@ function dmap_re = disparityColorImage(im0, im1, ds_rate, dmax)
     prev_valid_d = 0;
     valid_px = (pad_sz+1):1:(pad_sz+w);
     valid_py = (pad_sz+1):1:(pad_sz+h);
-    f = waitbar(0,'Please wait...');
+    f = waitbar(0,'Progressing(0.00%)');
     for py = valid_py
         waitbar((py-pad_sz)/h,f,sprintf("Progressing(%4.2f%%)",(py-pad_sz)/h*100) );
         for px = valid_px
@@ -74,15 +73,15 @@ function dmap_re = disparityColorImage(im0, im1, ds_rate, dmax)
             dmap(py-pad_sz, px-pad_sz) = min_d;
         end
     end
-    
+    delete(f);
     dmap_n = dmap/max(max(dmap));
-    dmap_n(dmap_n < 0) = 0;
+    dmap_n(dmap_n< 0) = 0;
     dmap_re = repelem(dmap_n, ds_rate, ds_rate);
     dmap_re = dmap_re(1:h1, 1:w1);
     W = [1:2*ds_rate, 2*ds_rate-1:-1:1];
     W = W*W';
     W = W/sum(W);
     dmap_re = conv2(dmap_re, W, 'same');
+    dmap_re= dmap_re/max(max(dmap_re));
     dmap_re = uint8(dmap_re*255);
-    delete(f);
 end

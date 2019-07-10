@@ -1,15 +1,17 @@
-function [dmap, var_map] = disparityGrayImage(im0, im1, ds_rate, dmax)
+function [dmap_re] = disparityGrayImage(im0, im1, ds_rate, dmax)
+    [h1, w1] = size(im0);
     im0 = im0(1:ds_rate:end, 1:ds_rate:end);
     im1 = im1(1:ds_rate:end, 1:ds_rate:end);
+    
     
     % pre-processing
     I1 = double(im0);
     I2 = double(im1);
-    [h, w, ~] = size(I1);
+    [h, w] = size(I1);
     % image padding
-    pad_sz = 200;       
-    I1 = padarray(I1, [pad_sz, pad_sz],'symmetric');
-    I2 = padarray(I2, [pad_sz, pad_sz],'symmetric');
+    pad_sz = 100;       
+    I1 = array_padd(I1, pad_sz);
+    I2 = array_padd(I2, pad_sz);
 
     % parameters
     block_radius = {5, 7, 60, 70};
@@ -32,17 +34,17 @@ function [dmap, var_map] = disparityGrayImage(im0, im1, ds_rate, dmax)
     dmap = zeros(h, w);
     valid_px = (pad_sz+1):1:(pad_sz+w);
     valid_py = (pad_sz+1):1:(pad_sz+h);
-    var_map = dmap;
     prev_d = 0;
+    
+    f = waitbar(0,'Progressing(0.00%)');
     for py = valid_py
-        clc;
-        fprintf("Processing: Line %d / %d \n", py-pad_sz, h);
         for px = valid_px
+            
+            waitbar((py-pad_sz)/h,f,sprintf("Progressing(%4.2f%%)",(py-pad_sz)/h*100) );
             sz_idx = 1;
             blk_r = block_radius{sz_idx};
             S1 = I1(py-blk_r :py+blk_r, px-blk_r: px+blk_r);
             var_s1 = var(S1(:));
-            var_map(py-pad_sz, px-pad_sz) = var_s1;
             if var_s1 > 1500
                 sz_idx = 1;
             elseif var_s1 > 400
@@ -85,5 +87,14 @@ function [dmap, var_map] = disparityGrayImage(im0, im1, ds_rate, dmax)
             end
         end
     end
-    
+    dmap_n = dmap/max(max(dmap));
+    dmap_n(dmap_n < 0) = 0;
+    dmap_re = repelem(dmap_n, ds_rate, ds_rate);
+    dmap_re = dmap_re(1:h1, 1:w1);
+    W = [1:2*ds_rate, 2*ds_rate-1:-1:1];
+    W = W*W';
+    W = W/sum(W);
+    dmap_re = conv2(dmap_re, W, 'same');
+    dmap_re = uint8(dmap_re*255);
+    delete(f);
 end
