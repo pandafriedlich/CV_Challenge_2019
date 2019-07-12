@@ -25,6 +25,8 @@ function [D, R, T] = disparity_map(scene_path)
     
     [T,R] = T_R_From_testData(testData);
         
+    %% Bonus -- 3D-Plot
+    plot_3D(testData, D);
 end
     
     

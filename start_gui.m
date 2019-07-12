@@ -125,6 +125,7 @@ selectedIndex = get(handles.popupmenu1, 'value');
 if selectedIndex == 1
     axes(handles.axes4);
     plot_3D(handles.testData, D);
+    title(handles.axes4,'3D Reconstruction');
 end
 % Update data
 guidata(hObject,handles);
