@@ -13,9 +13,9 @@ function [D, R, T] = disparity_map(scene_path)
     
     % Handle RGB and Grayscale image differently
     if is_gray
-        testData.im0 = rgb2gray(testData.im0);
-        testData.im1 = rgb2gray(testData.im1);
-        [D] = disparityGrayImage(testData.im0, testData.im1, ds_rate, dmax);
+        im0 = rgb2gray(testData.im0);
+        im1 = rgb2gray(testData.im1);
+        [D] = disparityGrayImage(im0, im1, ds_rate, dmax);
     else
         [D] = disparityColorImage(testData.im0, testData.im1, ds_rate, dmax);
         D = uint8(refineDMap(testData.im0, D));
