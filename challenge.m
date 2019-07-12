@@ -21,7 +21,7 @@ tic;
 % Specify path to scene folder containing img0 img1 and calib
     % test
 %     scene_path = '/nas/ei/home/ga26mib/Documents/cv/playground';
-scene_path = './data/motorcycle';
+scene_path = './Materials/motorcycle';
 % 
 % Calculate disparity map and Euclidean motion
   [D, R, T] = disparity_map(scene_path);

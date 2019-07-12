@@ -24,6 +24,8 @@ function [D, R, T] = disparity_map(scene_path)
     %% T,R Calculation
     
     [T,R] = T_R_From_testData(testData);
+    % T to meter convert 
+    T = T * testData.param.baseline * 0.001;
         
     %% Bonus -- 3D-Plot
     plot_3D(testData, D);
