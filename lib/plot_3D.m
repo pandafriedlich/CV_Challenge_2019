@@ -26,6 +26,7 @@ function plot_3D(testData, D)
     
     % 3D plot
     scatter3(X_Wert(1,:),X_Wert(2,:),Z_reshape, 2, Color);
+    zoom on;
     campos([0, 0, 0]);
     camup([0,-1, 0]);
 end
