@@ -21,14 +21,14 @@ tic;
 % Specify path to scene folder containing img0 img1 and calib
     % test
 %     scene_path = '/nas/ei/home/ga26mib/Documents/cv/playground';
-scene_path = './Materials/motorcycle';
+scene_path = './Materials/sword';
 % 
 % Calculate disparity map and Euclidean motion
   [D, R, T] = disparity_map(scene_path);
 
 %% Validation
 % Specify path to ground truth disparity map
-gt_path = './data/motorcycle/';
+gt_path = './Materials/sword/';
 %Load the ground truth
 G = readGTFromDir(gt_path);
 % 
