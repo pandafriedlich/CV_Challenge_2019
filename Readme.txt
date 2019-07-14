@@ -25,3 +25,6 @@ CV Challenge 2019, G02
 3. Bonus function: 3D-plot
 > By default the 3D-plot will be gernerated in disparity_map.m, you 
 can disable it by comment it out.
+
+> The function Plot_3D takes 2 inputs: TestData and disparity map
+In TestData the 2 images and the camera parameters are parsed.
