@@ -1,17 +1,22 @@
 CV Challenge 2019, G02
 1. GUI
-> RUN start_gui.m in Matlab, GUI should pop up.
+> a) RUN start_gui.m in Matlab, GUI should pop up.
 
-> Click 'Choose folder' button to select directory.
+> b) Click 'Choose folder' button to select directory.
 > > Now the 2 Input images should be shown on GUI.
 
-> Click 'Get disparity map' to start calculation.
+> There are 2 Modes: Boost Mode and Best Quality
+>> In default the Boost mode is selected.
+[WARNING] In 'Best quality', the calculation time for e.g. Motorcyle is ~ 20 mins.
+
+> You can also choose between show 3D plt or not
+[WARNING] 3D plot can be very RAM-Consuming (sometimes ~10GB)
+
+> c) Click 'Get disparity map' to start calculation.
 > > Now a progress bar should pop up.
 
 > After the calculation has been done, disparity map and
   T, R, PSNR should be shown on GUI.
-
-> If u choose with 3D plot, 3D plot will be on the right side.
 
 2. Challenge.m
 > set path on line 24 and 31
