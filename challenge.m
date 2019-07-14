@@ -51,4 +51,8 @@ fprintf("PSNR: %.4f [dB] \n%.2f seconds (~ %d min) elapsed\n", p, ...
 %% Display Disparity
 figure; imshow(D); colormap jet;
 
+%% Bonus -- 3D plot
+testData = testData = readDataFromDir(scene_path);
+plot_3D(testData, D);
+
 

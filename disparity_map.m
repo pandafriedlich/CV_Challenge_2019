@@ -1,13 +1,25 @@
-function [D, R, T] = disparity_map(scene_path)
+function [D, R, T] = disparity_map(scene_path, boost)
     % This function receives the path to a scene folder and calculates the
     % disparity map of the included stereo image pair. Also, the Euclidean
     % motion is returned as Rotation R and Translation T.
 
+    %% Add extra parameter for boost mode in GUI
+    if nargin == 2
+        boost_flag = 1;
+    else
+        boost_flag = 0;
+    end
+    % End of the boost mode modification
+    
     %% Load and parse the testData from given path  
     
     testData = readDataFromDir(scene_path);
     % Parse the max_disparity and determine the down_sample rate
-    [ds_rate, dmax, is_gray] = determineParams(testData);
+    if boost_flag
+        [ds_rate, dmax, is_gray] = determineParams(testData,boost_flag);
+    else
+        [ds_rate, dmax, is_gray] = determineParams(testData);
+    end
     
     %% Disparity Calculation
     
@@ -27,8 +39,6 @@ function [D, R, T] = disparity_map(scene_path)
     % T to meter convert 
     T = T * testData.params.baseline * 0.001;
         
-    %% Bonus -- 3D-Plot
-    plot_3D(testData, D);
 end
     
     
