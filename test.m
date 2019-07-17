@@ -35,6 +35,9 @@ classdef test < matlab.unittest.TestCase
            testCase.verifyNotEmpty(p);
            testCase.verifyTrue(p > 0);
            
+           testCase.verifyNotEmpty(elapsed_time);
+           testCase.verify(elapsed_time > 0);
+           
         end
         
         function check_toolboxes(testCase)
