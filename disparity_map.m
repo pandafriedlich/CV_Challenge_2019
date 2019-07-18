@@ -38,6 +38,9 @@ function [D, R, T] = disparity_map(scene_path, boost)
     [T,R] = T_R_From_testData(testData);
     % T to meter convert 
     T = T * testData.params.baseline * 0.001;
+    
+    %% 3D-plot for debug mode:
+    plot_3D(testData, D);
         
 end
     
